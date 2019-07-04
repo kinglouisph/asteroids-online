@@ -92,6 +92,7 @@ function rads(number) {
 
 //socket.io
 express.get('/', function(req, res) {
+  res.statusCode = 200;
   res.sendFile(__dirname + '/index.html');
 });
 
