@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <style>
+    body {
+      margin: 0;
+      text-align: center;
+      background-color: grey;
+    }
+    
+    h1 {
+      margin: 0;
+    }
+    
+    canvas {
+      background-color: white;
+    }
+    
+  </style>
+  <body>
+    <h1>Louis Online</h1>
+    <canvas id="mahcanvas" width="700" height="700"></canvas><br>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+      //vars
+      var ctx = document.getElementById("mahcanvas").getContext("2d");
+      var socket = io();
+      var id;
+      const pi = Math.PI;
+      
+      function rads(number) {
+        number %= 360;
+        return number * (pi/180);
+      }
+      
+      //socket.io
+      socket.on('sendid', function(data) {
+        id = data;
+      });
+      
+      socket.on('drawdata', function(data) {
+        ctx.clearRect(0,0,700,700);
+        ctx.strokeStyle = '#000000';
+        
+        //asteroids
+        for (var i in data.asteroids) {
+          ctx.beginPath();
+          var yeet;
+          if (data.asteroids[i].size === 1) {yeet = 10} else if (data.asteroids[i].size === 2) {yeet = 25} else {yeet = 50}
+          ctx.moveTo(data.asteroids[i].x + yeet * Math.cos(rads(45 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(45 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(90 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(90 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(135 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(135 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(180 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(180 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(225 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(225 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(270 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(270 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(315 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(315 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(360 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(360 + data.asteroids[i].angle)));
+          ctx.lineTo(data.asteroids[i].x + yeet * Math.cos(rads(45 + data.asteroids[i].angle)), data.asteroids[i].y + yeet * Math.sin(rads(45 + data.asteroids[i].angle)));
+          ctx.stroke();
+          ctx.closePath();
+        }
+        
+        //bullets
+        for (var i in data.bullets) {
+          ctx.beginPath();
+          ctx.arc(data.bullets[i].x,data.bullets[i].y,2.5,0,pi * 2);
+          ctx.stroke();
+          ctx.closePath();
+        }
+        
+        //players
+        for (var i in data.players) {
+          if (data.players[i].id == id) {ctx.strokeStyle = '#ff0000'} else {ctx.strokeStyle = '#000000'}
+          ctx.beginPath();
+          ctx.moveTo(data.players[i].x + 20 * Math.cos(rads(data.players[i].angle + 0)), data.players[i].y + 20 * Math.sin(rads(data.players[i].angle + 0)));
+          ctx.lineTo(data.players[i].x + 14 * Math.cos(rads(data.players[i].angle + 140)), data.players[i].y + 14 * Math.sin(rads(data.players[i].angle + 140)));
+          ctx.lineTo(data.players[i].x + 5 * Math.cos(rads(data.players[i].angle + 180)), data.players[i].y + 5 * Math.sin(rads(data.players[i].angle + 180)));
+          ctx.lineTo(data.players[i].x + 14 * Math.cos(rads(data.players[i].angle + 220)), data.players[i].y + 14 * Math.sin(rads(data.players[i].angle + 220)));
+          ctx.lineTo(data.players[i].x + 20 * Math.cos(rads(data.players[i].angle + 0)), data.players[i].y + 20 * Math.sin(rads(data.players[i].angle + 0)));
+          ctx.stroke();
+          ctx.closePath();
+        }
+      });
+      
+      
+      
+      //controls
+      document.addEventListener('keydown', function(event) {
+        if (event.key == 'w') {socket.emit('keypressed', 'w')}
+        if (event.key == 'a') {socket.emit('keypressed', 'a')}
+        if (event.key == 'd') {socket.emit('keypressed', 'd')}
+        if (event.key == ' ') {socket.emit('keypressed', ' ')}
+      });
+      
+      document.addEventListener('keyup', function(event) {
+        if (event.key == 'w') {socket.emit('keyunpressed', 'w')}
+        if (event.key == 'a') {socket.emit('keyunpressed', 'a')}
+        if (event.key == 'd') {socket.emit('keyunpressed', 'd')}
+        if (event.key == ' ') {socket.emit('keyunpressed', ' ')}
+      });
+    </script>
+  </body>
+</html>
