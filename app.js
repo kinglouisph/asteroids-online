@@ -100,6 +100,13 @@ http.listen(port, function() {
   console.log('Hello World! Port 3000');
 });
 
+
+
+
+
+
+
+
 ///////////////////SOCKET CONNECTION
 io.on('connection', function(socket) {
   console.log('Socket Connect');
@@ -114,6 +121,7 @@ io.on('connection', function(socket) {
   socket.xspeed = 0;
   socket.yspeed = 0;
   socket.angle = 0;
+  socket.dead = false;
   
   socket.wpressed = false;
   socket.apressed = false;
@@ -121,10 +129,10 @@ io.on('connection', function(socket) {
   socket.fired = false;
   
   socket.fire = function() {
-    spawnBullet(this.x + 20 * Math.cos(rads(this.angle)),this.y + 20 * Math.sin(rads(this.angle)),this.xspeed + 3 * Math.cos(rads(this.angle)),this.yspeed + 3 * Math.sin(rads(this.angle)),this.id)
-  }
+    if (this.dead === false) {spawnBullet(this.x + 20 * Math.cos(rads(this.angle)),this.y + 20 * Math.sin(rads(this.angle)),this.xspeed + 3 * Math.cos(rads(this.angle)),this.yspeed + 3 * Math.sin(rads(this.angle)),this.id)
+  }}
   
- 
+  
   
   socket.on('keypressed', function(data) {
     if (data === 'w') {socket.wpressed = true}
@@ -161,6 +169,7 @@ io.on('connection', function(socket) {
 setInterval(function() {
   //logic
   for (var i in sockets) {
+    if (sockets[i].dead) {continue}
     var socket = sockets[i];
     if (socket.apressed) {socket.angle -= 3}
     if (socket.dpressed) {socket.angle += 3}
@@ -211,12 +220,13 @@ setInterval(function() {
   
   //player collision
   for (var i in sockets) {
+    if (sockets[i].dead) {continue}
     for (var ii in asteroids) {
       var yeet;
       if (asteroids[ii].size === 1) {yeet = 10} else if (asteroids[ii].size === 2) {yeet = 25} else {yeet = 50}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].emit('die')}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].emit('die')}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].emit('die')}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].dead = true}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].dead = true}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {sockets[i].dead = true}
     }
   }
   
@@ -232,6 +242,7 @@ setInterval(function() {
   drawdata.asteroids = {};
   
   for (var i in sockets) {
+    if (sockets[i].dead) {continue}
     drawdata.players[String(sockets[i].id)] = {};
     drawdata.players[String(sockets[i].id)].x = sockets[i].x;
     drawdata.players[String(sockets[i].id)].y = sockets[i].y;
