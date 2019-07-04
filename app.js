@@ -214,9 +214,9 @@ setInterval(function() {
     for (var ii in asteroids) {
       var yeet;
       if (asteroids[ii].size === 1) {yeet = 10} else if (asteroids[ii].size === 2) {yeet = 25} else {yeet = 50}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i];}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i];}
-      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i];}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i].id)}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i].id)}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),asteroids[ii].x, asteroids[ii].y) < yeet) {delete sockets[String(sockets[i].id)}
     }
   }
   
