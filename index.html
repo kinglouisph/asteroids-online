@@ -37,10 +37,6 @@
         id = data;
       });
       
-      socket.on('die', function() {
-        socket.emit('disconnect')
-      });
-      
       socket.on('drawdata', function(data) {
         ctx.clearRect(0,0,700,700);
         ctx.strokeStyle = '#000000';
