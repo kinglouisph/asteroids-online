@@ -195,6 +195,7 @@ setInterval(function() {
     if (asteroids[i].size === 1) {yeet = 15} else if (asteroids[i].size === 2) {yeet = 25} else {yeet = 50}
     
     for (var ii in bullets) {
+      try {
       if (pythag(bullets[ii].x, bullets[ii].y, asteroids[i].x, asteroids[i].y) < yeet) {
         //bullet collision
         delete bullets[ii];
@@ -204,7 +205,7 @@ setInterval(function() {
         spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
         }
         delete asteroids[i];
-      }
+      }} catch {console.log('error')}
     }
   }
   
