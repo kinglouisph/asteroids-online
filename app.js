@@ -95,7 +95,7 @@ express.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-http.listen(3000, function() {
+http.listen(port, function() {
   console.log('Hello World! Port 3000');
 });
 
