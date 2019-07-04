@@ -19,6 +19,7 @@ var express = require('express')();
 var http = require('http').createServer(express);
 var io = require('socket.io')(http);
 const pi = Math.PI;
+const port = process.env.PORT || 3000;
 
 var pcount = 0;
 var bcount = 0;
