@@ -124,7 +124,7 @@ io.on('connection', function(socket) {
     spawnBullet(this.x + 20 * Math.cos(rads(this.angle)),this.y + 20 * Math.sin(rads(this.angle)),this.xspeed + 3 * Math.cos(rads(this.angle)),this.yspeed + 3 * Math.sin(rads(this.angle)),this.id)
   }
   
-  
+ 
   
   socket.on('keypressed', function(data) {
     if (data === 'w') {socket.wpressed = true}
@@ -200,12 +200,29 @@ setInterval(function() {
         //bullet collision
         delete bullets[ii];
         if (asteroids[i].size !== 1) {
-        spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
-        spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
-        spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
+          spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
+          spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
+          spawnAsteroid(asteroids[i].x,asteroids[i].y,Math.random() * 4 - 2,Math.random() * 4 - 2,Math.floor(Math.random() * 360),Math.random() * 4,asteroids[i].size - 1);
         }
         delete asteroids[i];
       }} catch {console.log('error')}
+    }
+  }
+  
+  //player collision
+  for (var i in sockets) {
+    for (var ii in bullets) {
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < 2.5) {delete sockets[i].id}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < 2.5) {delete sockets[i].id}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < 2.5) {delete sockets[i].id}
+    }
+    
+    for (var ii in asteroids) {
+      var yeet;
+      if (asteroids[ii].size === 1) {yeet = 10} else if (asteroids[ii].size === 2) {yeet = 25} else {yeet = 50}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < yeet) {delete sockets[i].id}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < yeet) {delete sockets[i].id}
+      if (pythag(sockets[i].x + 20 * Math.cos(rads(0 + sockets[i].angle)), sockets[i].y + 20 * Math.sin(rads(0 + sockets[i].angle)),bullets[ii].x, bullets[i].y) < yeet) {delete sockets[i].id}
     }
   }
   
