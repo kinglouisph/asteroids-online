@@ -1,8 +1,7 @@
 
   /////////////////////////////
   //                         //
-  //  MADE BY LOUIS          //
-  //  AKA PHANTOMDERP        //
+  //  MADE BY PHANTOMDERP    //
   //  PHANTOMDERP.GITHUB.IO  //
   //                         //
   /////////////////////////////
