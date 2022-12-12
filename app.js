@@ -1,11 +1,3 @@
-
-  /////////////////////////////
-  //                         //
-  //  MADE BY PHANTOMDERP    //
-  //  PHANTOMDERP.GITHUB.IO  //
-  //                         //
-  /////////////////////////////
-
 process.on('uncaughtException', function (exception) {
   console.log('error')
 });
